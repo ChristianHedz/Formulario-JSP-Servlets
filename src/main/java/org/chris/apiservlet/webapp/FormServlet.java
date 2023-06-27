@@ -5,12 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/registro")
 public class FormServlet extends HttpServlet {
@@ -27,27 +24,27 @@ public class FormServlet extends HttpServlet {
         String[] lenguajes = req.getParameterValues("lenguajes");
         String[] roles = req.getParameterValues("roles");
 
-        List<String> errores = new ArrayList<>();
+        Map<String,String> errores = new HashMap<>();
         if (username == null || username.isBlank()){
-            errores.add("El username es requerido");
+            errores.put("username","El username es requerido");
         }
         if (password == null || password.isBlank()){
-            errores.add("El password no debe ser vacio!");
+            errores.put("password","El password no debe ser vacio!");
         }
         if (email == null || email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$") == false){
-            errores.add("El email es requerido y debe tener un formato valido");
+            errores.put("email","El email es requerido y debe tener un formato valido");
         }
         if (pais == null || pais.isBlank()){
-            errores.add("El pais es requerido");
+            errores.put("pais","El pais es requerido");
         }
         if (lenguajes == null || lenguajes.length == 0){
-            errores.add("debe seleccionar al menos un lenguaje");
+            errores.put("lenguajes","debe seleccionar al menos un lenguaje");
         }
         if (roles == null || roles.length == 0){
-            errores.add("debe seleccionar al menos un rol");
+            errores.put("roles","debe seleccionar al menos un rol");
         }
         if (idioma == null){
-            errores.add("El idioma es requerido");
+            errores.put("idioma","El idioma es requerido");
         }
         if (errores.isEmpty()) {
             try (PrintWriter out = resp.getWriter()) {
